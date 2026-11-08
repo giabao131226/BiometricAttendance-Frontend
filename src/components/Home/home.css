@@ -1,0 +1,344 @@
+
+.home-dashboard-container {
+    height: 100vh;
+    overflow: hidden;
+    background-color: #f3f3f9;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #495057;
+}
+
+.home-main-content {
+    margin-left: 250px;
+    height: 100vh;
+    padding-top: 70px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Page Header */
+.home-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+}
+
+.home-page-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #495057;
+    margin: 0;
+}
+
+.home-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #878a99;
+}
+
+.home-breadcrumb-active {
+    color: #405189;
+}
+
+/* Content Body */
+.home-content-body {
+    padding: 0 24px 24px;
+}
+
+/* Banner */
+.home-banner-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(56, 65, 74, 0.15);
+    margin-bottom: 24px;
+    overflow: hidden;
+}
+
+.home-banner-alert {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background-color: #e8f1ff;
+    color: #405189;
+    font-size: 13px;
+}
+
+.home-banner-alert-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.home-banner-upgrade-link {
+    color: #405189;
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.home-banner-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 32px;
+}
+
+.home-banner-text-side {
+    max-width: 60%;
+}
+
+.home-banner-heading {
+    font-size: 20px;
+    font-weight: 600;
+    color: #405189;
+    margin: 0 0 12px;
+}
+
+.home-btn-upgrade {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #405189;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.home-btn-upgrade:hover {
+    background-color: #364574;
+}
+
+.home-banner-illustration {
+    max-width: 35%;
+    height: 120px;
+    object-fit: contain;
+}
+
+/* Metrics */
+.home-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+.home-metric-card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 1px 2px rgba(56, 65, 74, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.home-metric-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.home-metric-label {
+    font-size: 13px;
+    color: #878a99;
+    font-weight: 500;
+}
+
+.home-metric-value {
+    font-size: 24px;
+    font-weight: 600;
+    color: #495057;
+    margin: 0;
+}
+
+.home-metric-trend {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+}
+
+.home-trend-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 3px 6px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.home-trend-up {
+    background-color: #daf4f0;
+    color: #0ab39c;
+}
+
+.home-trend-down {
+    background-color: #fef0e8;
+    color: #f06548;
+}
+
+.home-metric-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-icon-bg-purple {
+    background-color: #e2e5ff;
+    color: #405189;
+}
+
+.home-icon-bg-orange {
+    background-color: #ffe8d9;
+    color: #f06548;
+}
+
+.home-icon-bg-yellow {
+    background-color: #fff1cc;
+    color: #f7b84b;
+}
+
+.home-icon-bg-green {
+    background-color: #d9f4ef;
+    color: #0ab39c;
+}
+
+/* Floating Settings */
+.home-floating-settings {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 38px;
+    height: 38px;
+    background-color: #299cdb;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px 0 0 6px;
+    cursor: pointer;
+    z-index: 99;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive Tablet */
+@media (max-width: 1200px) {
+    .home-main-content {
+        margin-left: 75px;
+    }
+
+    .home-metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+}
+
+/* Responsive Mobile */
+@media (max-width: 767px) {
+    .home-main-content {
+        margin-left: 0;
+        padding-top: 64px;
+    }
+
+    .home-page-header {
+        padding: 18px 16px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .home-content-body {
+        padding: 0 16px 20px;
+    }
+
+    .home-banner-body {
+        padding: 24px 20px;
+    }
+
+    .home-banner-illustration {
+        height: 90px;
+    }
+
+    .home-banner-text-side {
+        max-width: 65%;
+    }
+
+    .home-banner-heading {
+        font-size: 16px;
+    }
+
+    .home-metrics-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .home-floating-settings {
+        width: 34px;
+        height: 34px;
+    }
+}
+
+/* Responsive Small Mobile */
+@media (max-width: 480px) {
+    .home-page-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .home-content-body {
+        padding: 0 12px 16px;
+    }
+
+    .home-banner-alert {
+        padding: 10px 12px;
+        font-size: 11px;
+        gap: 8px;
+    }
+
+    .home-banner-body {
+        padding: 20px 16px;
+    }
+
+    .home-banner-text-side {
+        max-width: 100%;
+    }
+
+    .home-banner-heading {
+        font-size: 15px;
+        line-height: 1.5;
+    }
+
+    .home-banner-illustration {
+        display: none;
+    }
+
+    .home-btn-upgrade {
+        padding: 9px 14px;
+        font-size: 12px;
+    }
+
+    .home-metric-card {
+        padding: 16px;
+    }
+
+    .home-metric-value {
+        font-size: 22px;
+    }
+
+    .home-metric-trend {
+        flex-wrap: wrap;
+    }
+}

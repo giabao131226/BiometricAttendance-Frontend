@@ -1,0 +1,246 @@
+
+/* Sidebar */
+.home-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh;
+    background-color: #111428;
+    color: #abb9e8;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    z-index: 1000;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: left 0.3s ease, width 0.3s ease;
+}
+
+.home-sidebar-header {
+    padding: 24px 20px;
+}
+
+.home-logo-text {
+    color: #fff;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+.home-sidebar-nav {
+    flex: 1;
+    padding: 0 16px;
+    overflow-y: auto;
+}
+
+.home-section-title {
+    color: #838fb9;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin: 24px 12px 12px;
+}
+
+.home-nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 12px;
+    margin-bottom: 4px;
+    border-radius: 4px;
+    color: #abb9e8;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.home-nav-item:hover {
+    background-color: #1a1e3a;
+    color: #fff;
+}
+
+.home-nav-item.active {
+    background-color: #252b4b;
+    color: #fff;
+}
+
+.home-nav-item-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.home-nav-item-left span {
+    white-space: nowrap;
+}
+
+.home-nav-subitem {
+    display: flex;
+    align-items: center;
+    padding: 9px 12px 9px 46px;
+    color: #abb9e8;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.home-nav-subitem:hover {
+    color: #fff;
+}
+
+.home-nav-subitem.active {
+    color: #fff;
+}
+
+.home-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px 7px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.home-badge-green {
+    background-color: #0ab39c;
+    color: #fff;
+}
+
+.home-badge-orange {
+    background-color: #f06548;
+    color: #fff;
+}
+
+/* Sidebar Overlay */
+.home-sidebar-overlay {
+    display: none;
+}
+
+/* Responsive Tablet */
+@media (max-width: 1200px) {
+    .home-sidebar {
+        width: 75px;
+    }
+
+    .home-sidebar-header {
+        padding: 24px 10px;
+        text-align: center;
+    }
+
+    .home-logo-text {
+        font-size: 15px;
+        letter-spacing: 1px;
+    }
+
+    .home-sidebar-nav {
+        padding: 0 10px;
+    }
+
+    .home-section-title {
+        font-size: 0;
+        margin: 20px 0 12px;
+        text-align: center;
+    }
+
+    .home-section-title::after {
+        content: "";
+        display: block;
+        width: 25px;
+        height: 1px;
+        background-color: #5c6488;
+        margin: auto;
+    }
+
+    .home-nav-item {
+        justify-content: center;
+        padding: 12px 0;
+    }
+
+    .home-nav-item-left {
+        justify-content: center;
+    }
+
+    .home-nav-item-left span,
+    .home-nav-item > svg,
+    .home-nav-subitem,
+    .home-badge {
+        display: none;
+    }
+}
+
+/* Responsive Mobile */
+@media (max-width: 767px) {
+    .home-sidebar {
+        width: 250px;
+        left: -250px;
+        transition: left 0.3s ease;
+    }
+
+    .home-sidebar.home-sidebar-open {
+        left: 0;
+    }
+
+    .home-sidebar-header {
+        padding: 24px 20px;
+        text-align: left;
+    }
+
+    .home-logo-text {
+        font-size: 22px;
+        letter-spacing: 2px;
+    }
+
+    .home-sidebar-nav {
+        padding: 0 16px;
+    }
+
+    .home-section-title {
+        font-size: 11px;
+        text-align: left;
+        margin: 16px 0 12px 12px;
+    }
+
+    .home-section-title::after {
+        display: none;
+    }
+
+    .home-nav-item {
+        justify-content: space-between;
+        padding: 10px 12px;
+    }
+
+    .home-nav-item-left {
+        justify-content: flex-start;
+    }
+
+    .home-nav-item-left span,
+    .home-nav-item > svg,
+    .home-nav-subitem,
+    .home-badge {
+        display: flex;
+    }
+
+    .home-nav-item > svg {
+        display: block;
+    }
+
+    .home-nav-subitem {
+        display: flex;
+    }
+
+    .home-sidebar-overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 998;
+    }
+
+    .home-sidebar {
+        z-index: 1001;
+    }
+}
