@@ -1,14 +1,82 @@
-
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
 import {
-    Activity,
     ChevronDown,
     ChevronRight,
-    LayoutGrid,
-    Layers
+    LayoutDashboard,
+    Building2,
+    Plus,
+    Network,
+    UserCog,
+    ChartNoAxesCombined
 } from "lucide-react";
-import "./sidebar.css"
+import "./sidebar.css";
 
-export default function Sidebar({ isCollapsed, isMobileOpen }) {
+export default function Sidebar({ role, isCollapsed, isMobileOpen }) {
+    const [openMenus, setOpenMenus] = useState({
+        faculties: true
+    });
+
+    const roleConfig = {
+        student: [
+            {
+                label: "Tổng quan",
+                link: "/student/dashboard",
+                icon: LayoutDashboard
+            }
+        ],
+        teacher: [
+            {
+                label: "Tổng quan",
+                link: "/teacher/dashboard",
+                icon: LayoutDashboard
+            }
+        ],
+        university: [
+            {
+                label: "Tổng quan",
+                link: "/university/dashboard",
+                icon: LayoutDashboard
+            },
+            {
+                label: "Quản lý khoa",
+                key: "faculties",
+                icon: Building2,
+                children: [
+                    {
+                        label: "Danh sách khoa",
+                        link: "/university/faculties",
+                        icon: Building2
+                    },
+                    {
+                        label: "Quản lý bộ môn",
+                        link: "/university/departments",
+                        icon: Network
+                    },
+                    {
+                        label: "Phân công trưởng khoa",
+                        link: "/university/faculties/assign-dean",
+                        icon: UserCog
+                    },
+                    {
+                        label: "Thống kê khoa",
+                        link: "/university/faculties/statistics",
+                        icon: ChartNoAxesCombined
+                    }
+                ]
+            }
+        ]
+    };
+    role = "university";
+    const menuItems = roleConfig[role] || [];
+
+    const handleToggleMenu = (key) => {
+        setOpenMenus(prev => ({
+            ...prev,
+            [key]: !prev[key]
+        }));
+    };
+
     return (
         <aside className={`home-sidebar ${isCollapsed ? "home-sidebar-mini" : ""} ${isMobileOpen ? "home-sidebar-open" : ""}`}>
             <div className="home-sidebar-header">
@@ -18,57 +86,66 @@ export default function Sidebar({ isCollapsed, isMobileOpen }) {
             <nav className="home-sidebar-nav">
                 <div className="home-section-title">Menu</div>
 
-                <div className="home-nav-item home-active">
-                    <div className="home-nav-item-left">
-                        <Activity size={18} />
-                        <span>Dashboards</span>
-                    </div>
-                    <ChevronDown size={16} />
-                </div>
+                {menuItems.map((item, index) => {
+                    const Icon = item.icon;
+                    const hasChildren = item.children?.length > 0;
+                    const isOpen = openMenus[item.key];
 
-                <div className="home-nav-subitem home-active">
-                    <span>Analytics</span>
-                </div>
-                <div className="home-nav-subitem">
-                    <span>CRM</span>
-                </div>
-                <div className="home-nav-subitem">
-                    <span>Ecommerce</span>
-                </div>
-                <div className="home-nav-subitem">
-                    <span>Crypto</span>
-                </div>
-                <div className="home-nav-subitem">
-                    <span>Projects</span>
-                </div>
-                <div className="home-nav-subitem">
-                    <span>NFT</span>
-                </div>
-                <div className="home-nav-subitem">
-                    <span>Job</span>
-                </div>
-                <div className="home-nav-subitem">
-                    <span>Blog</span>
-                    <span className="home-badge home-badge-green">New</span>
-                </div>
+                    return (
+                        <div className="home-nav-group" key={item.key || index}>
+                            {hasChildren ? (
+                                <div
+                                    className={`home-nav-item ${isOpen ? "home-active" : ""}`}
+                                    onClick={() => handleToggleMenu(item.key)}
+                                >
+                                    <div className="home-nav-item-left">
+                                        <Icon size={18} />
+                                        <span>{item.label}</span>
+                                    </div>
 
-                <div className="home-nav-item">
-                    <div className="home-nav-item-left">
-                        <LayoutGrid size={18} />
-                        <span>Apps</span>
-                    </div>
-                    <ChevronRight size={16} />
-                </div>
+                                    {!isCollapsed && (
+                                        isOpen
+                                            ? <ChevronDown size={16} />
+                                            : <ChevronRight size={16} />
+                                    )}
+                                </div>
+                            ) : (
+                                <NavLink
+                                    to={item.link}
+                                    className={({ isActive }) =>
+                                        `home-nav-item ${isActive ? "home-active" : ""}`
+                                    }
+                                >
+                                    <div className="home-nav-item-left">
+                                        <Icon size={18} />
+                                        <span>{item.label}</span>
+                                    </div>
+                                </NavLink>
+                            )}
 
-                <div className="home-nav-item">
-                    <div className="home-nav-item-left">
-                        <Layers size={18} />
-                        <span>Layouts</span>
-                    </div>
-                    <span className="home-badge home-badge-orange">Hot</span>
-                </div>
+                            {hasChildren && isOpen && !isCollapsed && (
+                                <div className="home-nav-children">
+                                    {item.children.map((child, childIndex) => {
+                                        const ChildIcon = child.icon;
 
-                <div className="home-section-title">Pages</div>
+                                        return (
+                                            <NavLink
+                                                to={child.link}
+                                                key={childIndex}
+                                                className={({ isActive }) =>
+                                                    `home-nav-subitem ${isActive ? "home-active" : ""}`
+                                                }
+                                            >
+                                                {ChildIcon && <ChildIcon size={16} />}
+                                                <span>{child.label}</span>
+                                            </NavLink>
+                                        );
+                                    })}
+                                </div>
+                            )}
+                        </div>
+                    );
+                })}
             </nav>
         </aside>
     );
