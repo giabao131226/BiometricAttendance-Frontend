@@ -2,6 +2,7 @@ import { useState } from "react";
 import Sidebar from "../Sidebar/sidebar";
 import Header from "../Header/header";
 import "./home.css";
+import { Outlet } from "react-router-dom";
 
 function Home() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -29,7 +30,7 @@ function Home() {
       <Header onToggleSidebar={handleToggleSidebar} />
 
       <main className="home-main-content">
-        {/* Nội dung Dashboard của bạn đặt ở đây */}
+          <Outlet />
       </main>
 
       {isMobileSidebarOpen && (

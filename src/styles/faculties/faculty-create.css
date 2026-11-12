@@ -1,0 +1,353 @@
+
+.faculty-create {
+    padding: 24px;
+    min-height: 100%;
+    background: #f3f3f9;
+}
+
+.faculty-create-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.faculty-create-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    color: #878a99;
+    font-size: 13px;
+}
+
+.faculty-create-breadcrumb span:first-child {
+    cursor: pointer;
+    color: #405189;
+}
+
+.faculty-create-breadcrumb span:first-child:hover {
+    text-decoration: underline;
+}
+
+.faculty-create-header h2 {
+    margin: 0 0 7px;
+    color: #343a40;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.faculty-create-header p {
+    margin: 0;
+    color: #878a99;
+    font-size: 14px;
+}
+
+.faculty-create-back {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+    border: 1px solid #d9dce3;
+    border-radius: 6px;
+    background: #fff;
+    color: #405189;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.faculty-create-back:hover {
+    background: #405189;
+    border-color: #405189;
+    color: #fff;
+}
+
+.faculty-create-form {
+    max-width: 100%;
+}
+
+.faculty-create-card {
+    background: #fff;
+    border: 1px solid #e9ebec;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(56, 65, 74, 0.08);
+}
+
+.faculty-create-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 24px;
+    border-bottom: 1px solid #eff0f2;
+}
+
+.faculty-create-icon {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: #e8eaf5;
+    color: #405189;
+}
+
+.faculty-create-card-header h3 {
+    margin: 0 0 5px;
+    color: #343a40;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.faculty-create-card-header p {
+    margin: 0;
+    color: #878a99;
+    font-size: 13px;
+}
+
+.faculty-create-card-body {
+    padding: 24px;
+}
+
+.faculty-create-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    margin-bottom: 22px;
+}
+
+.faculty-create-field {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.faculty-create-field label {
+    color: #343a40;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.faculty-create-field label span {
+    color: #f06548;
+}
+
+.faculty-create-field input,
+.faculty-create-field textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px 13px;
+    border: 1px solid #d9dce3;
+    border-radius: 6px;
+    outline: none;
+    color: #343a40;
+    background: #fff;
+    font-family: inherit;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.faculty-create-field input {
+    height: 42px;
+}
+
+.faculty-create-field textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.faculty-create-field input:focus,
+.faculty-create-field textarea:focus {
+    border-color: #405189;
+    box-shadow: 0 0 0 3px rgba(64, 81, 137, 0.1);
+}
+
+.faculty-create-field input::placeholder,
+.faculty-create-field textarea::placeholder {
+    color: #b5b8c3;
+}
+
+.faculty-create-field small {
+    color: #878a99;
+    font-size: 12px;
+}
+
+.faculty-create-status {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 26px;
+    padding: 18px;
+    border: 1px solid #eff0f2;
+    border-radius: 7px;
+    background: #fafbfc;
+}
+
+.faculty-create-status strong {
+    color: #343a40;
+    font-size: 14px;
+}
+
+.faculty-create-status p {
+    margin: 6px 0 0;
+    color: #878a99;
+    font-size: 13px;
+}
+
+.faculty-create-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.faculty-create-switch input {
+    width: 0;
+    height: 0;
+    opacity: 0;
+}
+
+.faculty-create-slider {
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    background: #ced4da;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.faculty-create-slider::before {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    left: 3px;
+    bottom: 3px;
+    border-radius: 50%;
+    background: #fff;
+    transition: 0.25s;
+}
+
+.faculty-create-switch input:checked + .faculty-create-slider {
+    background: #0ab39c;
+}
+
+.faculty-create-switch input:checked + .faculty-create-slider::before {
+    transform: translateX(20px);
+}
+
+.faculty-create-switch input:focus-visible + .faculty-create-slider {
+    outline: 3px solid rgba(64, 81, 137, 0.2);
+    outline-offset: 2px;
+}
+
+.faculty-create-status-label {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 9px;
+}
+
+.faculty-create-status-label span {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.faculty-create-status-label .active {
+    color: #0ab39c;
+}
+
+.faculty-create-status-label .inactive {
+    color: #f06548;
+}
+
+.faculty-create-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+.faculty-create-actions button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 115px;
+    padding: 11px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.faculty-create-cancel {
+    border: 1px solid #d9dce3;
+    background: #fff;
+    color: #495057;
+}
+
+.faculty-create-cancel:hover {
+    background: #e9ecef;
+}
+
+.faculty-create-submit {
+    border: 1px solid #405189;
+    background: #405189;
+    color: #fff;
+}
+
+.faculty-create-submit:hover {
+    background: #364575;
+}
+
+.faculty-create-field input.is-invalid {
+    border-color: #f06548;
+}
+
+.faculty-create-field .text-danger {
+    color: #f06548;
+    font-size: 12px;
+}
+
+@media (max-width: 768px) {
+    .faculty-create {
+        padding: 16px;
+    }
+
+    .faculty-create-header {
+        align-items: flex-start;
+    }
+
+    .faculty-create-row {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .faculty-create-card-header,
+    .faculty-create-card-body {
+        padding: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .faculty-create-header {
+        flex-direction: column;
+    }
+
+    .faculty-create-back {
+        align-self: flex-start;
+    }
+
+    .faculty-create-actions {
+        flex-direction: column-reverse;
+    }
+
+    .faculty-create-actions button {
+        width: 100%;
+    }
+}

@@ -1,6 +1,8 @@
 import LayoutDefault from "../layouts/default/layout-default";
 import LayoutProtected from "../layouts/protected/layout-protected";
 import StudentHome from "../pages/students/home/home";
+import FacultyCreate from "../pages/university/falcuties/faculties-create";
+import FacultyManagement from "../pages/university/falcuties/falcuties-manage";
 import UniversityHome from "../pages/university/home/home";
 
 
@@ -14,12 +16,27 @@ export const routes = [
                 element: <LayoutDefault />,
                 children: [
                     {
-                        path: "sinh-vien",
+                        path: "student",
                         element: <StudentHome />
                     },
                     {
-                        path: "nha-truong",
-                        element: <UniversityHome />
+                        path: "university",
+                        element: <UniversityHome />,
+                        children: [
+                            {
+                                path: "faculties",
+                                children: [
+                                    {
+                                        index: true,
+                                        element: <FacultyManagement />
+                                    },
+                                    {
+                                        path: "create",
+                                        element: <FacultyCreate />
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 ]
             }
