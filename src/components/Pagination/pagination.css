@@ -1,0 +1,87 @@
+/* pagination.css */
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    margin: 0;
+    padding: 16px 0;
+
+    list-style: none;
+}
+
+.page-item {
+    margin: 0;
+}
+
+.page-link {
+    min-width: 36px;
+    height: 36px;
+
+    padding: 0 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #dfe3e8;
+    border-radius: 6px;
+
+    background: #fff;
+    color: #596273;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+/* Hover */
+.page-link:hover {
+    border-color: #1677ff;
+    color: #1677ff;
+    background: #f5f9ff;
+}
+
+/* Trang hiện tại */
+.page-item.active .page-link {
+    border-color: #1677ff;
+    background: #1677ff;
+    color: #fff;
+}
+
+/* Hover trang hiện tại */
+.page-item.active .page-link:hover {
+    background: #0958d9;
+    border-color: #0958d9;
+}
+
+/* Trang trước / kế tiếp */
+.page-item:first-child .page-link,
+.page-item:last-child .page-link {
+    padding: 0 14px;
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+    .pagination {
+        gap: 4px;
+        padding: 12px 0;
+    }
+
+    .page-link {
+        min-width: 34px;
+        height: 34px;
+        padding: 0 8px;
+        font-size: 12px;
+    }
+
+    .page-item:first-child .page-link,
+    .page-item:last-child .page-link {
+        padding: 0 9px;
+    }
+}

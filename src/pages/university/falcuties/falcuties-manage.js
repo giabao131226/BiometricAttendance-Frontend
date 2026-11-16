@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
     Search,
     Plus,
@@ -12,7 +12,9 @@ import {
     Save
 } from "lucide-react";
 import "./falcuties-management.css";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom"
+import Swal from "sweetalert2";
+import SwalAlert from "../../../components/SwalAlert/swal-alert";
 
 const initialFaculties = [
     {
@@ -66,6 +68,8 @@ export default function FacultyManagement() {
     const [showModal, setShowModal] = useState(false);
     const [editingFaculty, setEditingFaculty] = useState(null);
     const [formData, setFormData] = useState(emptyFaculty);
+    const [currentPage,setCurrentPage] = useState();
+    const [totalPage,setTotalPage] = useState();
     const apiUrl = process.env.REACT_APP_BACKEND_URL;
 
 
@@ -86,12 +90,6 @@ export default function FacultyManagement() {
 
     const activeCount = faculties?.filter(item => item.status).length;
     const inactiveCount = faculties?.length - activeCount;
-
-    const handleOpenCreate = () => {
-        setEditingFaculty(null);
-        setFormData(emptyFaculty);
-        setShowModal(true);
-    };
 
     const handleOpenEdit = (faculty) => {
         setEditingFaculty(faculty);
@@ -137,27 +135,68 @@ export default function FacultyManagement() {
         setFormData(emptyFaculty);
     };
 
-    const handleDelete = (id) => {
-        if (!window.confirm("Bạn có chắc chắn muốn xóa khoa này?")) {
-            return;
-        }
+    const handleDelete = async (id) => {
+        const result = await Swal.fire({
+            title: "Bạn có chắc chắn?",
+            text: "Bạn có chắc chắn muốn xóa khoa này không? Thao tác này có thể ảnh hưởng đến các dữ liệu liên quan.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Xác nhận xóa",
+            cancelButtonText: "Hủy bỏ",
+            confirmButtonColor: "#f06548",
+            cancelButtonColor: "#6c757d",
+            reverseButtons: true
+        });
 
-        setFaculties(prev => prev.filter(item => item.id !== id));
+        if (result.isConfirmed) {
+            fetch(`${apiUrl}/university/faculty/delete/${id}`, {
+                method: "PATCH",
+                credentials: "include"
+            }).then(async res => {
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.detail.message);
+                return data;
+            }).then(data => {
+                if(data.success){
+                    SwalAlert({
+                        "status": "success",
+                        "title": data.title,
+                        "message": data.message,
+                        "time": 3000
+                    });
+                }
+            }).catch(ex => {
+                SwalAlert({
+                    "status": "error",
+                    "title": "Có lỗi xảy ra",
+                    "message": ex,
+                    "time": 3000
+                })
+            })
+        }
     };
 
+    const onPageChange = useCallback(() => {
+
+    },[currentPage,totalPage]);
+
     useEffect(() => {
-        fetch(`http://localhost:8000/api/v1/university/faculty/`, {
+        fetch(`${apiUrl}/university/faculty/`, {
             method: "GET",
             credentials: "include"
         }).then(async res => {
             const data = await res.json();
-            if (!res.ok || !data.success) throw new Error(data.message);
+            if (!res.ok) throw new Error(data.detail.message);
             return data;
         }).then(data => {
-            console.log(data);
             if (data.success) setFaculties(data.faculties || initialFaculties);
         }).catch(ex => {
-            console.log(ex);
+            SwalAlert({
+                "status": "error",
+                "title": "Có lỗi xảy ra",
+                "message": ex,
+                "time": 3000
+            })
         })
     }, [])
 
