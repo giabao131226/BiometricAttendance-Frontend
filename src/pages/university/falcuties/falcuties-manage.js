@@ -12,47 +12,10 @@ import {
     Save
 } from "lucide-react";
 import "./falcuties-management.css";
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Swal from "sweetalert2";
 import SwalAlert from "../../../components/SwalAlert/swal-alert";
 
-const initialFaculties = [
-    {
-        id: 1,
-        faculty_code: "CNTT",
-        faculty_name: "Khoa Công nghệ thông tin",
-        description: "Đào tạo ngành CNTT, Khoa học máy tính và Kỹ thuật phần mềm",
-        status: true
-    },
-    {
-        id: 2,
-        faculty_code: "KHMT",
-        faculty_name: "Khoa Khoa học máy tính",
-        description: "Đào tạo Trí tuệ nhân tạo và Xử lý dữ liệu",
-        status: true
-    },
-    {
-        id: 3,
-        faculty_code: "KT",
-        faculty_name: "Khoa Kinh tế",
-        description: "Đào tạo Quản trị kinh doanh, Tài chính ngân hàng và Kế toán",
-        status: true
-    },
-    {
-        id: 4,
-        faculty_code: "DT",
-        faculty_name: "Khoa Điện - Điện tử",
-        description: "Đào tạo Kỹ thuật Điện, Tự động hóa và Viễn thông",
-        status: true
-    },
-    {
-        id: 5,
-        faculty_code: "CK",
-        faculty_name: "Khoa Cơ khí",
-        description: "Đào tạo Kỹ thuật cơ khí và Chế tạo máy",
-        status: false
-    }
-];
 
 const emptyFaculty = {
     faculty_code: "",
@@ -62,7 +25,7 @@ const emptyFaculty = {
 };
 
 export default function FacultyManagement() {
-    const [faculties, setFaculties] = useState(initialFaculties);
+    const [faculties, setFaculties] = useState([]);
     const [search, setSearch] = useState("");
     const [statusFilter, setStatusFilter] = useState("all");
     const [showModal, setShowModal] = useState(false);
@@ -70,8 +33,10 @@ export default function FacultyManagement() {
     const [formData, setFormData] = useState(emptyFaculty);
     const [currentPage,setCurrentPage] = useState();
     const [totalPage,setTotalPage] = useState();
+    const [reload,setReload] = useState(false);
+    
     const apiUrl = process.env.REACT_APP_BACKEND_URL;
-
+    const navigate = useNavigate();
 
     const filteredFaculties = faculties?.filter(faculty => {
         const keyword = search.toLowerCase();
@@ -90,17 +55,6 @@ export default function FacultyManagement() {
 
     const activeCount = faculties?.filter(item => item.status).length;
     const inactiveCount = faculties?.length - activeCount;
-
-    const handleOpenEdit = (faculty) => {
-        setEditingFaculty(faculty);
-        setFormData({
-            faculty_code: faculty.faculty_code,
-            faculty_name: faculty.faculty_name,
-            description: faculty.description,
-            status: faculty.status
-        });
-        setShowModal(true);
-    };
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -164,6 +118,7 @@ export default function FacultyManagement() {
                         "message": data.message,
                         "time": 3000
                     });
+                    setReload(prev => !prev);
                 }
             }).catch(ex => {
                 SwalAlert({
@@ -189,7 +144,7 @@ export default function FacultyManagement() {
             if (!res.ok) throw new Error(data.detail.message);
             return data;
         }).then(data => {
-            if (data.success) setFaculties(data.faculties || initialFaculties);
+            if (data.success) setFaculties(data.faculties);
         }).catch(ex => {
             SwalAlert({
                 "status": "error",
@@ -198,7 +153,7 @@ export default function FacultyManagement() {
                 "time": 3000
             })
         })
-    }, [])
+    }, [reload])
 
     return (
         <div className="faculty-management">
@@ -316,7 +271,7 @@ export default function FacultyManagement() {
                                             <button
                                                 className="faculty-action-edit"
                                                 title="Chỉnh sửa"
-                                                onClick={() => handleOpenEdit(faculty)}
+                                                onClick={() => {navigate(`edit/${faculty.id}`)}}
                                             >
                                                 <Pencil size={16} />
                                             </button>

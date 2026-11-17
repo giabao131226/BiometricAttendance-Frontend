@@ -2,6 +2,7 @@ import LayoutDefault from "../layouts/default/layout-default";
 import LayoutProtected from "../layouts/protected/layout-protected";
 import StudentHome from "../pages/students/home/home";
 import FacultyCreate from "../pages/university/falcuties/faculties-create";
+import FacultyEdit from "../pages/university/falcuties/faculties-edit";
 import FacultyManagement from "../pages/university/falcuties/falcuties-manage";
 import UniversityHome from "../pages/university/home/home";
 
@@ -33,6 +34,10 @@ export const routes = [
                                     {
                                         path: "create",
                                         element: <FacultyCreate />
+                                    },
+                                    {
+                                        path: "edit/:id",
+                                        element: <FacultyEdit />
                                     }
                                 ]
                             }
