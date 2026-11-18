@@ -35,6 +35,7 @@ export default function FacultyManagement() {
     const [totalPage, setTotalPage] = useState(1);
     const [reload, setReload] = useState(false);
     const [overview,setOverview] = useState({});
+    const [keyword,setKeyword] = useState("");
 
     const apiUrl = process.env.REACT_APP_BACKEND_URL;
     const navigate = useNavigate();
@@ -134,7 +135,7 @@ export default function FacultyManagement() {
 
     useEffect(() => {
         fetch(
-            `${apiUrl}/university/faculty?page=${currentPage}&status=${statusFilter}`,
+            `${apiUrl}/university/faculty?page=${currentPage}&status=${statusFilter}&keyword=${search}`,
             {
                 method: "GET",
                 credentials: "include"
@@ -164,7 +165,7 @@ export default function FacultyManagement() {
                 time: 3000
             });
         });
-    }, [apiUrl, reload, currentPage, statusFilter]);
+    }, [apiUrl, reload, currentPage, statusFilter,search]);
 
     return (
         <div className="faculty-management">
