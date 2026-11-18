@@ -34,17 +34,10 @@ export default function FacultyManagement() {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPage, setTotalPage] = useState(1);
     const [reload, setReload] = useState(false);
+    const [overview,setOverview] = useState({});
 
     const apiUrl = process.env.REACT_APP_BACKEND_URL;
     const navigate = useNavigate();
-
-    const activeCount = faculties?.filter(
-        item => item.status === "active"
-    ).length;
-
-    const inactiveCount = faculties?.filter(
-        item => item.status === "inactive"
-    ).length;
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -161,6 +154,7 @@ export default function FacultyManagement() {
                 setFaculties(data.faculties);
                 setCurrentPage(data.currentPage ?? data.page);
                 setTotalPage(data.totalPage);
+                setOverview(data.overview);
             }
         }).catch(ex => {
             SwalAlert({
@@ -195,7 +189,7 @@ export default function FacultyManagement() {
                     </div>
                     <div>
                         <p>Tổng số khoa</p>
-                        <h3>{faculties.length}</h3>
+                        <h3>{overview.total}</h3>
                     </div>
                 </div>
 
@@ -205,7 +199,7 @@ export default function FacultyManagement() {
                     </div>
                     <div>
                         <p>Đang hoạt động</p>
-                        <h3>{activeCount}</h3>
+                        <h3>{overview.cntActive}</h3>
                     </div>
                 </div>
 
@@ -215,7 +209,7 @@ export default function FacultyManagement() {
                     </div>
                     <div>
                         <p>Ngừng hoạt động</p>
-                        <h3>{inactiveCount}</h3>
+                        <h3>{overview.cntInActive}</h3>
                     </div>
                 </div>
             </div>

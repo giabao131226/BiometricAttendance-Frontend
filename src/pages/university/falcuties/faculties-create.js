@@ -16,7 +16,7 @@ function FacultyCreate() {
         faculty_code: "",
         faculty_name: "",
         description: "",
-        status: true
+        status: "active"
     });
 
     const validate = () => {
@@ -49,7 +49,9 @@ function FacultyCreate() {
 
         setFormData(prev => ({
             ...prev,
-            [name]: type === "checkbox" ? checked : value
+            [name]: type === "checkbox"
+                ? (checked ? "active" : "inactive")
+                : value
         }));
 
         setErrors(prev => ({
@@ -111,7 +113,7 @@ function FacultyCreate() {
                     faculty_code: "",
                     faculty_name: "",
                     description: "",
-                    status: true
+                    status: "active"
                 });
 
                 setErrors({});
@@ -252,7 +254,7 @@ function FacultyCreate() {
                                 <input
                                     type="checkbox"
                                     name="status"
-                                    checked={formData.status}
+                                    checked={formData.status === "active"}
                                     onChange={handleChange}
                                 />
                                 <span className="faculty-create-slider"></span>
@@ -260,8 +262,10 @@ function FacultyCreate() {
                         </div>
 
                         <div className="faculty-create-status-label">
-                            <span className={formData.status ? "active" : "inactive"}>
-                                {formData.status ? "Đang hoạt động" : "Ngừng hoạt động"}
+                            <span className={formData.status}>
+                                {formData.status === "active"
+                                    ? "Đang hoạt động"
+                                    : "Ngừng hoạt động"}
                             </span>
                         </div>
                     </div>
