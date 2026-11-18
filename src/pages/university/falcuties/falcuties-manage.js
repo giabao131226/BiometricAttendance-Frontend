@@ -12,16 +12,16 @@ import {
     Save
 } from "lucide-react";
 import "./falcuties-management.css";
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import SwalAlert from "../../../components/SwalAlert/swal-alert";
-
+import Pagination from "../../../components/Pagination/pagination";
 
 const emptyFaculty = {
     faculty_code: "",
     faculty_name: "",
     description: "",
-    status: true
+    status: "active"
 };
 
 export default function FacultyManagement() {
@@ -31,37 +31,29 @@ export default function FacultyManagement() {
     const [showModal, setShowModal] = useState(false);
     const [editingFaculty, setEditingFaculty] = useState(null);
     const [formData, setFormData] = useState(emptyFaculty);
-    const [currentPage,setCurrentPage] = useState();
-    const [totalPage,setTotalPage] = useState();
-    const [reload,setReload] = useState(false);
-    
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPage, setTotalPage] = useState(1);
+    const [reload, setReload] = useState(false);
+
     const apiUrl = process.env.REACT_APP_BACKEND_URL;
     const navigate = useNavigate();
 
-    const filteredFaculties = faculties?.filter(faculty => {
-        const keyword = search.toLowerCase();
+    const activeCount = faculties?.filter(
+        item => item.status === "active"
+    ).length;
 
-        const matchSearch =
-            faculty.faculty_code.toLowerCase().includes(keyword) ||
-            faculty.faculty_name.toLowerCase().includes(keyword);
-
-        const matchStatus =
-            statusFilter === "all" ||
-            (statusFilter === "active" && faculty.status) ||
-            (statusFilter === "inactive" && !faculty.status);
-
-        return matchSearch && matchStatus;
-    });
-
-    const activeCount = faculties?.filter(item => item.status).length;
-    const inactiveCount = faculties?.length - activeCount;
+    const inactiveCount = faculties?.filter(
+        item => item.status === "inactive"
+    ).length;
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
 
         setFormData(prev => ({
             ...prev,
-            [name]: type === "checkbox" ? checked : value
+            [name]: type === "checkbox"
+                ? (checked ? "active" : "inactive")
+                : value
         }));
     };
 
@@ -108,52 +100,77 @@ export default function FacultyManagement() {
                 credentials: "include"
             }).then(async res => {
                 const data = await res.json();
-                if (!res.ok) throw new Error(data.detail.message);
+
+                if (!res.ok) {
+                    throw new Error(
+                        data.detail?.message || "Không thể xóa khoa."
+                    );
+                }
+
                 return data;
             }).then(data => {
-                if(data.success){
+                if (data.success) {
                     SwalAlert({
-                        "status": "success",
-                        "title": data.title,
-                        "message": data.message,
-                        "time": 3000
+                        status: "success",
+                        title: data.title,
+                        message: data.message,
+                        time: 3000
                     });
+
                     setReload(prev => !prev);
                 }
             }).catch(ex => {
                 SwalAlert({
-                    "status": "error",
-                    "title": "Có lỗi xảy ra",
-                    "message": ex,
-                    "time": 3000
-                })
-            })
+                    status: "error",
+                    title: "Có lỗi xảy ra",
+                    message: ex.message,
+                    time: 3000
+                });
+            });
         }
     };
 
-    const onPageChange = useCallback(() => {
+    const onPageChange = useCallback((page) => {
+        setCurrentPage(page);
+    }, []);
 
-    },[currentPage,totalPage]);
+    const handleStatusChange = (e) => {
+        setStatusFilter(e.target.value);
+        setCurrentPage(1);
+    };
 
     useEffect(() => {
-        fetch(`${apiUrl}/university/faculty/`, {
-            method: "GET",
-            credentials: "include"
-        }).then(async res => {
+        fetch(
+            `${apiUrl}/university/faculty?page=${currentPage}&status=${statusFilter}`,
+            {
+                method: "GET",
+                credentials: "include"
+            }
+        ).then(async res => {
             const data = await res.json();
-            if (!res.ok) throw new Error(data.detail.message);
+
+            if (!res.ok) {
+                throw new Error(
+                    data.detail?.message || "Không thể lấy dữ liệu khoa."
+                );
+            }
+
             return data;
         }).then(data => {
-            if (data.success) setFaculties(data.faculties);
+            if (data.success) {
+                setFaculties(data.faculties);
+                setCurrentPage(data.currentPage ?? data.page);
+                setTotalPage(data.totalPage);
+            }
         }).catch(ex => {
             SwalAlert({
-                "status": "error",
-                "title": "Có lỗi xảy ra",
-                "message": ex,
-                "time": 3000
-            })
-        })
-    }, [reload])
+                status: "error",
+                title: "Có lỗi xảy ra",
+                message: ex.message,
+                time: 3000
+            });
+        });
+    }, [apiUrl, reload, currentPage, statusFilter]);
 
     return (
         <div className="faculty-management">
@@ -164,14 +181,11 @@ export default function FacultyManagement() {
                 </div>
 
                 <Link to={"create"}>
-                    <button
-                        className="faculty-btn-primary"
-                    >
+                    <button className="faculty-btn-primary">
                         <Plus size={18} />
                         Thêm khoa
                     </button>
                 </Link>
-
             </div>
 
             <div className="faculty-statistics">
@@ -220,7 +234,7 @@ export default function FacultyManagement() {
 
                     <select
                         value={statusFilter}
-                        onChange={e => setStatusFilter(e.target.value)}
+                        onChange={handleStatusChange}
                     >
                         <option value="all">Tất cả trạng thái</option>
                         <option value="active">Đang hoạt động</option>
@@ -230,7 +244,7 @@ export default function FacultyManagement() {
 
                 <div className="faculty-table-header">
                     <h3>Danh sách khoa</h3>
-                    <span>{filteredFaculties.length} khoa</span>
+                    <span>{faculties.length} khoa</span>
                 </div>
 
                 <div className="faculty-table-wrapper">
@@ -247,31 +261,40 @@ export default function FacultyManagement() {
                         </thead>
 
                         <tbody>
-                            {filteredFaculties.map((faculty, index) => (
+                            {faculties.map((faculty, index) => (
                                 <tr key={faculty.id}>
-                                    <td>{index + 1}</td>
+                                    <td>
+                                        {(currentPage - 1) * 10 + index + 1}
+                                    </td>
+
                                     <td>
                                         <span className="faculty-code">
                                             {faculty.faculty_code}
                                         </span>
                                     </td>
+
                                     <td className="faculty-name">
                                         {faculty.faculty_name}
                                     </td>
+
                                     <td className="faculty-description">
                                         {faculty.description}
                                     </td>
+
                                     <td>
-                                        <span className={`faculty-status ${faculty.status ? "active" : "inactive"}`}>
-                                            {faculty.status ? "Hoạt động" : "Ngừng hoạt động"}
+                                        <span className={`faculty-status ${faculty.status}`}>
+                                            {faculty.status === "active"
+                                                ? "Hoạt động"
+                                                : "Ngừng hoạt động"}
                                         </span>
                                     </td>
+
                                     <td>
                                         <div className="faculty-actions">
                                             <button
                                                 className="faculty-action-edit"
                                                 title="Chỉnh sửa"
-                                                onClick={() => {navigate(`edit/${faculty.id}`)}}
+                                                onClick={() => navigate(`edit/${faculty.id}`)}
                                             >
                                                 <Pencil size={16} />
                                             </button>
@@ -288,7 +311,7 @@ export default function FacultyManagement() {
                                 </tr>
                             ))}
 
-                            {filteredFaculties.length === 0 && (
+                            {faculties.length === 0 && (
                                 <tr>
                                     <td colSpan="6" className="faculty-empty">
                                         Không tìm thấy khoa phù hợp
@@ -306,7 +329,9 @@ export default function FacultyManagement() {
                         <div className="faculty-modal-header">
                             <div>
                                 <h3>
-                                    {editingFaculty ? "Cập nhật khoa" : "Thêm khoa mới"}
+                                    {editingFaculty
+                                        ? "Cập nhật khoa"
+                                        : "Thêm khoa mới"}
                                 </h3>
                                 <p>Nhập thông tin khoa</p>
                             </div>
@@ -360,7 +385,7 @@ export default function FacultyManagement() {
                                     <input
                                         type="checkbox"
                                         name="status"
-                                        checked={formData.status}
+                                        checked={formData.status === "active"}
                                         onChange={handleChange}
                                     />
                                     Đang hoạt động
@@ -388,6 +413,12 @@ export default function FacultyManagement() {
                     </div>
                 </div>
             )}
+
+            <Pagination
+                currentPage={currentPage}
+                totalPage={totalPage}
+                onPageChange={onPageChange}
+            />
         </div>
     );
 }

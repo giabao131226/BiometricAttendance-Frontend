@@ -9,6 +9,7 @@ function FacultyEdit() {
     const navigate = useNavigate();
     const apiUrl = process.env.REACT_APP_BACKEND_URL;
     const params = useParams();
+
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -16,7 +17,7 @@ function FacultyEdit() {
         faculty_code: "",
         faculty_name: "",
         description: "",
-        status: true
+        status: "active"
     });
 
     const validate = () => {
@@ -49,7 +50,9 @@ function FacultyEdit() {
 
         setFormData(prev => ({
             ...prev,
-            [name]: type === "checkbox" ? checked : value
+            [name]: type === "checkbox"
+                ? (checked ? "active" : "inactive")
+                : value
         }));
 
         setErrors(prev => ({
@@ -86,7 +89,8 @@ function FacultyEdit() {
                     ...formData,
                     faculty_code: formData.faculty_code.trim(),
                     faculty_name: formData.faculty_name.trim(),
-                    description: formData.description.trim()
+                    description: formData.description.trim(),
+                    status: formData.status
                 })
             });
 
@@ -138,19 +142,26 @@ function FacultyEdit() {
             credentials: "include"
         }).then(async res => {
             const data = await res.json();
-            if (!res.ok) throw new Error(data.detail.message);
+
+            if (!res.ok) {
+                throw new Error(data.detail?.message || "Không thể lấy thông tin khoa.");
+            }
+
             return data;
         }).then(data => {
-            setFormData(data.detail);
+            setFormData({
+                ...data.detail,
+                status: data.detail.status === "inactive" ? "inactive" : "active"
+            });
         }).catch(ex => {
             SwalAlert({
-                "status": "error",
-                "title": "Có lỗi xảy ra",
-                "message": ex,
-                "time": 3000
-            })
-        })
-    }, [])
+                status: "error",
+                title: "Có lỗi xảy ra",
+                message: ex.message,
+                time: 3000
+            });
+        });
+    }, [apiUrl, params.id]);
 
     return (
         <div className="faculty-create">
@@ -163,6 +174,7 @@ function FacultyEdit() {
                         <span>/</span>
                         <span>Chỉnh sửa khoa</span>
                     </div>
+
                     <h2>Chỉnh sửa thông tin khoa</h2>
                     <p>Cập nhật thông tin và trạng thái hoạt động của khoa trong hệ thống.</p>
                 </div>
@@ -183,6 +195,7 @@ function FacultyEdit() {
                         <div className="faculty-create-icon">
                             <Building2 size={21} />
                         </div>
+
                         <div>
                             <h3>Thông tin khoa</h3>
                             <p>Chỉnh sửa các thông tin cơ bản của khoa</p>
@@ -250,7 +263,7 @@ function FacultyEdit() {
                                 name="description"
                                 placeholder="Nhập mô tả về khoa..."
                                 rows={5}
-                                value={formData.description}
+                                value={formData.description || ""}
                                 onChange={handleChange}
                             />
 
@@ -269,7 +282,7 @@ function FacultyEdit() {
                                 <input
                                     type="checkbox"
                                     name="status"
-                                    checked={formData.status}
+                                    checked={formData.status === "active"}
                                     onChange={handleChange}
                                 />
                                 <span className="faculty-create-slider"></span>
@@ -277,8 +290,10 @@ function FacultyEdit() {
                         </div>
 
                         <div className="faculty-create-status-label">
-                            <span className={formData.status ? "active" : "inactive"}>
-                                {formData.status ? "Đang hoạt động" : "Ngừng hoạt động"}
+                            <span className={formData.status}>
+                                {formData.status === "active"
+                                    ? "Đang hoạt động"
+                                    : "Ngừng hoạt động"}
                             </span>
                         </div>
                     </div>
