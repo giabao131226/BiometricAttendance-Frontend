@@ -6,7 +6,6 @@ import FacultyEdit from "../pages/university/falcuties/faculties-edit";
 import FacultyManagement from "../pages/university/falcuties/falcuties-manage";
 import UniversityHome from "../pages/university/home/home";
 
-
 export const routes = [
     {
         path: "/",
@@ -44,6 +43,14 @@ export const routes = [
                         ]
                     }
                 ]
+            }
+        ]
+    },
+    {
+        path: "/auth",
+        children: [
+            {
+                path: "login"
             }
         ]
     }

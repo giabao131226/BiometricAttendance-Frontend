@@ -1,9 +1,9 @@
-import Home from "../../../components/Home/home";
+import { Outlet } from "react-router-dom";
 
 export default function UniversityHome(){
     return (
         <>
-            <Home />
+            <Outlet />
         </>
     );
 }
