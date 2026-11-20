@@ -1,0 +1,226 @@
+/* Subject Table Styles */
+.subject-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #e9ebec;
+}
+
+.subject-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    text-align: left;
+    min-width: 650px;
+}
+
+.subject-table thead {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ebec;
+}
+
+.subject-table th {
+    padding: 12px 16px;
+    font-weight: 600;
+    color: #495057;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.th-stt {
+    width: 60px;
+    text-align: center;
+}
+
+.th-code {
+    width: 160px;
+}
+
+.th-name {
+    min-width: 250px;
+}
+
+.th-credits {
+    width: 120px;
+    text-align: center;
+}
+
+.th-actions {
+    width: 140px;
+    text-align: center;
+}
+
+.subject-table tbody tr {
+    border-bottom: 1px solid #f1f3f5;
+    transition: background-color 0.15s ease;
+}
+
+.subject-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.subject-table tbody tr:hover {
+    background-color: #f9fafb;
+}
+
+.subject-table td {
+    padding: 14px 16px;
+    color: #495057;
+    vertical-align: middle;
+}
+
+.td-stt {
+    text-align: center;
+    color: #878a99;
+    font-weight: 500;
+}
+
+/* Badges */
+.subject-code-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 12px;
+    background-color: #e8f1ff;
+    color: #405189;
+    font-family: monospace;
+}
+
+.subject-name-text {
+    font-weight: 500;
+    color: #212529;
+}
+
+.td-credits {
+    text-align: center;
+}
+
+.subject-credits-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    background-color: #daf4f0;
+    color: #0ab39c;
+}
+
+/* Actions */
+.td-actions {
+    text-align: center;
+}
+
+.subject-action-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+}
+
+.subject-btn-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-family: inherit;
+}
+
+.subject-btn-view {
+    background-color: #f3f3f9;
+    color: #405189;
+    border-color: #e2e5e8;
+}
+
+.subject-btn-view:hover {
+    background-color: #405189;
+    color: #ffffff;
+    border-color: #405189;
+}
+
+.subject-btn-edit {
+    background-color: #e8f1ff;
+    color: #3577f1;
+    border-color: #d2e3fc;
+}
+
+.subject-btn-edit:hover {
+    background-color: #3577f1;
+    color: #ffffff;
+    border-color: #3577f1;
+}
+
+.subject-btn-delete {
+    background-color: #fde8e4;
+    color: #f06548;
+    border-color: #fbd3cb;
+}
+
+.subject-btn-delete:hover {
+    background-color: #f06548;
+    color: #ffffff;
+    border-color: #f06548;
+}
+
+/* Loading & Empty States */
+.subject-table-loading {
+    padding: 48px 16px;
+    text-align: center;
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #e9ebec;
+    color: #878a99;
+}
+
+.subject-table-spin {
+    color: #405189;
+    animation: subject-spin 1s linear infinite;
+    margin-bottom: 8px;
+}
+
+@keyframes subject-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.subject-table-empty {
+    padding: 48px 20px;
+    text-align: center;
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #e9ebec;
+}
+
+.subject-table-empty-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 12px;
+    border-radius: 50%;
+    background-color: #f3f3f9;
+    color: #878a99;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.subject-table-empty-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #495057;
+    margin: 0 0 6px;
+}
+
+.subject-table-empty-desc {
+    font-size: 13px;
+    color: #878a99;
+    margin: 0;
+}

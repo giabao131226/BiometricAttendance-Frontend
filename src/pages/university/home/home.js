@@ -3,7 +3,7 @@ import Home from "../../../components/Home/home";
 export default function UniversityHome(){
     return (
         <>
-            <Home />
+            <Home role="university" />
         </>
     );
 }

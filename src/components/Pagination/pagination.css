@@ -1,0 +1,75 @@
+/* Pagination Component Styles */
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin: 0;
+    padding: 16px 0 8px;
+    list-style: none;
+}
+
+.page-item {
+    margin: 0;
+}
+
+.page-link {
+    min-width: 36px;
+    height: 36px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    border: 1px solid #dfe3e8;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #495057;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.page-link:hover:not(:disabled) {
+    border-color: #405189;
+    color: #405189;
+    background: #f3f3f9;
+}
+
+/* Active Page */
+.page-item.active .page-link {
+    border-color: #405189;
+    background: #405189;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.page-item.active .page-link:hover {
+    background: #364574;
+    border-color: #364574;
+}
+
+/* Disabled */
+.page-item.disabled .page-link,
+.page-link:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    background: #f8f9fa;
+    color: #878a99;
+}
+
+@media (max-width: 576px) {
+    .pagination {
+        gap: 4px;
+        padding: 12px 0 4px;
+    }
+
+    .page-link {
+        min-width: 32px;
+        height: 32px;
+        padding: 0 8px;
+        font-size: 12px;
+    }
+}

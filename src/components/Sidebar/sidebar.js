@@ -5,16 +5,18 @@ import {
     ChevronRight,
     LayoutDashboard,
     Building2,
-    Plus,
     Network,
     UserCog,
-    ChartNoAxesCombined
+    ChartNoAxesCombined,
+    BookOpen
 } from "lucide-react";
 import "./sidebar.css";
 
 export default function Sidebar({ role, isCollapsed, isMobileOpen }) {
     const [openMenus, setOpenMenus] = useState({
-        faculties: true
+        faculties: true,
+        subjects: true,
+        student_subjects: true
     });
 
     const roleConfig = {
@@ -23,6 +25,18 @@ export default function Sidebar({ role, isCollapsed, isMobileOpen }) {
                 label: "Tổng quan",
                 link: "/student/dashboard",
                 icon: LayoutDashboard
+            },
+            {
+                label: "Môn học của tôi",
+                key: "student_subjects",
+                icon: BookOpen,
+                children: [
+                    {
+                        label: "Danh sách môn học",
+                        link: "/student/subjects",
+                        icon: BookOpen
+                    }
+                ]
             }
         ],
         teacher: [
@@ -64,11 +78,24 @@ export default function Sidebar({ role, isCollapsed, isMobileOpen }) {
                         icon: ChartNoAxesCombined
                     }
                 ]
+            },
+            {
+                label: "Quản lý môn học",
+                key: "subjects",
+                icon: BookOpen,
+                children: [
+                    {
+                        label: "Danh sách môn học",
+                        link: "/university/subjects",
+                        icon: BookOpen
+                    }
+                ]
             }
         ]
     };
-    role = "university";
-    const menuItems = roleConfig[role] || [];
+
+    const activeRole = role || "university";
+    const menuItems = roleConfig[activeRole] || [];
 
     const handleToggleMenu = (key) => {
         setOpenMenus(prev => ({
