@@ -20,22 +20,21 @@ export default function Login() {
         }
 
         setLoading(true);
-        
-        // Giả lập đăng nhập thành công để test giao diện
-        setTimeout(() => {
-            const mockUser = {
-                fullName: 'Hoàng Vũ',
-                studentId: username,
-                role: 'student',
-                classCode: '66CNTT2'
-            };
-            
-            localStorage.setItem('user', JSON.stringify(mockUser));
-            setLoading(false);
-            navigate('/dashboard');
-        }, 800);
-    };
 
+        try {
+            const res = await API.post('/auth/login', {
+                username: username.trim(),
+                password
+            });
+
+            localStorage.setItem('user', JSON.stringify(res.data.user));
+            navigate('/dashboard');
+        } catch (err) {
+            setError(err.response?.data?.detail || 'Mã sinh viên hoặc mật khẩu không đúng.');
+        } finally {
+            setLoading(false);
+        }
+    };
     return (
         <div className="auth-split-container">
             {/* Cột bên trái: Hình ảnh minh họa & Tiêu đề đề tài */}
