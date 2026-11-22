@@ -7,14 +7,26 @@ import FacultyManagement from "../pages/university/falcuties/falcuties-manage";
 import UniversityHome from "../pages/university/home/home";
 
 export const routes = [
-    {
-        path: "/",
-        element: <LayoutProtected />,
+  {
+    path: "/",
+    element: <LayoutProtected />,
+    children: [
+      {
+        path: "",
+        element: <LayoutDefault />,
         children: [
-            {
-                path: "",
-                element: <LayoutDefault />,
+          {
+            path: "student",
+            element: <StudentHome />,
+          },
+          {
+            path: "university",
+            element: <UniversityHome />,
+            children: [
+              {
+                path: "majors",
                 children: [
+<<<<<<< HEAD
                     {
                         path: "student",
                         element: <StudentHome />
@@ -54,4 +66,22 @@ export const routes = [
             }
         ]
     }
+=======
+                  {
+                    path: "sinh-vien",
+                    element: <StudentHome />,
+                  },
+                  {
+                    path: "nha-truong",
+                    element: <UniversityHome />,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+>>>>>>> origin/phuongha_feature
 ];

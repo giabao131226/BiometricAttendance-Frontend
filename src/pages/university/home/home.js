@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 
+<<<<<<< HEAD
 export default function UniversityHome(){
     return (
         <>
@@ -7,3 +8,12 @@ export default function UniversityHome(){
         </>
     );
 }
+=======
+export default function UniversityHome() {
+  return (
+    <>
+      <Home />
+    </>
+  );
+}
+>>>>>>> origin/phuongha_feature
