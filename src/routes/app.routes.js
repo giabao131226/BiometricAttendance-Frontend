@@ -1,3 +1,4 @@
+
 import LayoutDefault from "../layouts/default/layout-default";
 import LayoutProtected from "../layouts/protected/layout-protected";
 import StudentHome from "../pages/students/home/home";
@@ -26,47 +27,6 @@ export const routes = [
               {
                 path: "majors",
                 children: [
-<<<<<<< HEAD
-                    {
-                        path: "student",
-                        element: <StudentHome />
-                    },
-                    {
-                        path: "university",
-                        element: <UniversityHome />,
-                        children: [
-                            {
-                                path: "faculties",
-                                children: [
-                                    {
-                                        index: true,
-                                        element: <FacultyManagement />
-                                    },
-                                    {
-                                        path: "create",
-                                        element: <FacultyCreate />
-                                    },
-                                    {
-                                        path: "edit/:id",
-                                        element: <FacultyEdit />
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        path: "/auth",
-        children: [
-            {
-                path: "login"
-            }
-        ]
-    }
-=======
                   {
                     path: "sinh-vien",
                     element: <StudentHome />,
@@ -74,6 +34,23 @@ export const routes = [
                   {
                     path: "nha-truong",
                     element: <UniversityHome />,
+                  },
+                  {
+                    path: "faculties",
+                    children: [
+                      {
+                        index: true,
+                        element: <FacultyManagement />,
+                      },
+                      {
+                        path: "create",
+                        element: <FacultyCreate />,
+                      },
+                      {
+                        path: "edit/:id",
+                        element: <FacultyEdit />,
+                      },
+                    ],
                   },
                 ],
               },
@@ -83,5 +60,12 @@ export const routes = [
       },
     ],
   },
->>>>>>> origin/phuongha_feature
+  {
+    path: "/auth",
+    children: [
+      {
+        path: "login",
+      },
+    ],
+  },
 ];
