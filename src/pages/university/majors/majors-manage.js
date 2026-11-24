@@ -23,6 +23,10 @@ const emptymajor = {
   status: "active",
 };
 
+const API_BASE_URL = (
+  process.env.REACT_APP_BACKEND_URL || "http://127.0.0.1:8000"
+).replace(/\/+$/, "");
+
 export default function MajorManagement() {
   const [majors, setMajors] = useState([]);
   const [search, setSearch] = useState("");
@@ -36,7 +40,7 @@ export default function MajorManagement() {
   const [overview, setOverview] = useState({});
   const [keyword, setKeyword] = useState("");
 
-  const apiUrl = process.env.REACT_APP_BACKEND_URL;
+  const apiUrl = API_BASE_URL;
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -84,19 +88,27 @@ export default function MajorManagement() {
     });
 
     if (result.isConfirmed) {
-      fetch(`${apiUrl}/university/major/delete/${id}`, {
-        method: "PATCH",
+      fetch(`${apiUrl}/majors/${id}`, {
+        method: "DELETE",
         credentials: "include",
       })
         .then(async (res) => {
-          const data = await res.json();
-
           if (!res.ok) {
-            throw new Error(data.detail?.message || "Không thể xóa ngành.");
+            const data = await res.json().catch(() => ({}));
+            throw new Error(
+              typeof data.detail === "string"
+                ? data.detail
+                : "Không thể xóa ngành.",
+            );
           }
 
-          return data;
+          return {
+            success: true,
+            title: "Thành công",
+            message: "Đã xóa ngành.",
+          };
         })
+
         .then((data) => {
           if (data.success) {
             SwalAlert({
@@ -130,31 +142,55 @@ export default function MajorManagement() {
   };
 
   useEffect(() => {
-    fetch(
-      `${apiUrl}/university/major?page=${currentPage}&status=${statusFilter}&keyword=${search}`,
-      {
-        method: "GET",
-        credentials: "include",
-      },
-    )
+    fetch(`${apiUrl}/majors/`, {
+      method: "GET",
+      credentials: "include",
+    })
       .then(async (res) => {
         const data = await res.json();
 
         if (!res.ok) {
           throw new Error(
-            data.detail?.message || "Không thể lấy dữ liệu ngành.",
+            typeof data.detail === "string"
+              ? data.detail
+              : "Không thể lấy dữ liệu ngành.",
           );
         }
 
         return data;
       })
-      .then((data) => {
-        if (data.success) {
-          setMajors(data.majors);
-          setCurrentPage(data.currentPage ?? data.page);
-          setTotalPage(data.totalPage);
-          setOverview(data.overview);
-        }
+      .then((list) => {
+        // Backend trả về mảng, đổi sang đúng tên trường mà giao diện đang dùng
+        const all = list.map((m) => ({
+          ...m,
+          id: m.major_id,
+          major_code: m.major_id,
+          description: m.description ?? "",
+          status: m.status ?? "active",
+        }));
+
+        const kw = search.trim().toLowerCase();
+        const filtered = all.filter(
+          (m) =>
+            (statusFilter === "all" || m.status === statusFilter) &&
+            (!kw ||
+              m.major_code.toLowerCase().includes(kw) ||
+              m.major_name.toLowerCase().includes(kw)),
+        );
+
+        const pageSize = 10;
+        const pages = Math.max(1, Math.ceil(filtered.length / pageSize));
+        if (currentPage > pages) setCurrentPage(pages);
+
+        setMajors(
+          filtered.slice((currentPage - 1) * pageSize, currentPage * pageSize),
+        );
+        setTotalPage(pages);
+        setOverview({
+          total: all.length,
+          cntActive: all.filter((m) => m.status === "active").length,
+          cntInActive: all.filter((m) => m.status === "inactive").length,
+        });
       })
       .catch((ex) => {
         SwalAlert({

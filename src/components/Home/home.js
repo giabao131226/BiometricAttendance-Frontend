@@ -9,9 +9,9 @@ function Home() {
 
   const handleToggleSidebar = () => {
     if (window.innerWidth <= 767) {
-      setIsMobileSidebarOpen(prev => !prev);
+      setIsMobileSidebarOpen((prev) => !prev);
     } else {
-      setIsSidebarCollapsed(prev => !prev);
+      setIsSidebarCollapsed((prev) => !prev);
     }
   };
 
@@ -20,7 +20,9 @@ function Home() {
   };
 
   return (
-    <div className={`home-dashboard-container ${isSidebarCollapsed ? "home-sidebar-collapsed" : ""}`}>
+    <div
+      className={`home-dashboard-container ${isSidebarCollapsed ? "home-sidebar-collapsed" : ""}`}
+    >
       <Sidebar
         isCollapsed={isSidebarCollapsed}
         isMobileOpen={isMobileSidebarOpen}
@@ -33,10 +35,7 @@ function Home() {
       </main>
 
       {isMobileSidebarOpen && (
-        <div
-          className="home-sidebar-overlay"
-          onClick={handleCloseSidebar}
-        />
+        <div className="home-sidebar-overlay" onClick={handleCloseSidebar} />
       )}
     </div>
   );
