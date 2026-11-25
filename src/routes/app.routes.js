@@ -6,6 +6,9 @@ import FacultyCreate from "../pages/university/falcuties/faculties-create";
 import FacultyEdit from "../pages/university/falcuties/faculties-edit";
 import FacultyManagement from "../pages/university/falcuties/falcuties-manage";
 import UniversityHome from "../pages/university/home/home";
+import MajorCreate from "../pages/university/majors/majors-create";
+import MajorEdit from "../pages/university/majors/majors-edit";
+import MajorManagement from "../pages/university/majors/majors-manage";
 
 export const routes = [
   {
@@ -28,32 +31,36 @@ export const routes = [
                 path: "majors",
                 children: [
                   {
-                    path: "sinh-vien",
-                    element: <StudentHome />,
+                    index: true,
+                    element: <MajorManagement />
                   },
                   {
-                    path: "nha-truong",
-                    element: <UniversityHome />,
+                    path: "create",
+                    element: <MajorCreate />
                   },
                   {
-                    path: "faculties",
-                    children: [
-                      {
-                        index: true,
-                        element: <FacultyManagement />,
-                      },
-                      {
-                        path: "create",
-                        element: <FacultyCreate />,
-                      },
-                      {
-                        path: "edit/:id",
-                        element: <FacultyEdit />,
-                      },
-                    ],
-                  },
+                    path: "edit/:id",
+                    element: <MajorEdit />
+                  }
                 ],
               },
+              {
+                path: "faculties",
+                children: [
+                  {
+                    index: true,
+                    element: <FacultyManagement />
+                  },
+                  {
+                    path: "create",
+                    element: <FacultyCreate />
+                  },
+                  {
+                    path: "edit/:id",
+                    element: <FacultyEdit />
+                  }
+                ]
+              }
             ],
           },
         ],

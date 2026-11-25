@@ -1,3 +1,4 @@
+
 import { useCallback, useEffect, useState } from "react";
 import {
   Search,
@@ -35,6 +36,8 @@ export default function MajorManagement() {
   const [reload, setReload] = useState(false);
   const [overview, setOverview] = useState({});
   const [keyword, setKeyword] = useState("");
+  const [faculties, setFaculties] = useState([]);
+  const [facultyFilter, setFacultyFilter] = useState("all");
 
   const apiUrl = process.env.REACT_APP_BACKEND_URL;
   const navigate = useNavigate();
@@ -129,20 +132,25 @@ export default function MajorManagement() {
     setCurrentPage(1);
   };
 
+  const handleFacultyChange = (e) => {
+    setFacultyFilter(e.target.value);
+    setCurrentPage(1);
+  }
+
   useEffect(() => {
     fetch(
-      `${apiUrl}/university/major?page=${currentPage}&status=${statusFilter}&keyword=${search}`,
+      `${apiUrl}/university/major?page=${currentPage}&status=${statusFilter}&keyword=${encodeURIComponent(search)}&faculty_id=${facultyFilter}`,
       {
         method: "GET",
         credentials: "include",
-      },
+      }
     )
       .then(async (res) => {
         const data = await res.json();
 
         if (!res.ok) {
           throw new Error(
-            data.detail?.message || "Không thể lấy dữ liệu ngành.",
+            data.detail?.message || "Không thể lấy dữ liệu ngành."
           );
         }
 
@@ -164,7 +172,36 @@ export default function MajorManagement() {
           time: 3000,
         });
       });
-  }, [apiUrl, reload, currentPage, statusFilter, search]);
+  }, [apiUrl, reload, currentPage, statusFilter, search, facultyFilter]);
+
+  useEffect(() => {
+    fetch(`${apiUrl}/university/faculty`, {
+      method: "GET",
+      credentials: "include",
+    })
+      .then(async (res) => {
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(
+            data.detail?.message || "Không thể lấy danh sách khoa."
+          );
+        }
+
+        return data;
+      })
+      .then((data) => {
+        setFaculties(data.faculties || []);
+      })
+      .catch((ex) => {
+        SwalAlert({
+          status: "error",
+          title: "Có lỗi xảy ra",
+          message: ex.message,
+          time: 3000,
+        });
+      });
+  }, [apiUrl]);
 
   return (
     <div className="major-management">
@@ -220,9 +257,12 @@ export default function MajorManagement() {
             <Search size={18} />
             <input
               type="text"
-              placeholder="Tìm kiếm mã ngành, tên ngành..."
+              placeholder="Tìm kiếm mã ngành, tên ngành, tên khoa..."
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setCurrentPage(1);
+              }}
             />
           </div>
 
@@ -230,6 +270,15 @@ export default function MajorManagement() {
             <option value="all">Tất cả trạng thái</option>
             <option value="active">Đang hoạt động</option>
             <option value="inactive">Ngừng hoạt động</option>
+          </select>
+
+          <select value={facultyFilter} onChange={handleFacultyChange}>
+            <option value="all">Tất cả khoa</option>
+            {faculties.map((faculty) => (
+              <option key={faculty.id} value={faculty.id}>
+                {faculty.faculty_name}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -245,6 +294,7 @@ export default function MajorManagement() {
                 <th>STT</th>
                 <th>Mã ngành</th>
                 <th>Tên ngành</th>
+                <th>Khoa</th>
                 <th>Mô tả</th>
                 <th>Trạng thái</th>
                 <th>Thao tác</th>
@@ -261,6 +311,8 @@ export default function MajorManagement() {
                   </td>
 
                   <td className="major-name">{major.major_name}</td>
+
+                  <td className="major-faculty">{major.faculty_name}</td>
 
                   <td className="major-description">{major.description}</td>
 
@@ -296,7 +348,7 @@ export default function MajorManagement() {
 
               {majors.length === 0 && (
                 <tr>
-                  <td colSpan="6" className="major-empty">
+                  <td colSpan="7" className="major-empty">
                     Không tìm thấy ngành phù hợp
                   </td>
                 </tr>

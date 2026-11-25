@@ -1,4 +1,5 @@
-import { useCallback, useState } from "react";
+
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Building2, Save } from "lucide-react";
 import "../../../styles/major/major-create.css";
@@ -10,11 +11,15 @@ function MajorCreate() {
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [faculties, setFaculties] = useState([]);
 
   const [formData, setFormData] = useState({
     major_code: "",
     major_name: "",
     description: "",
+    faculty_id: "",
+    degree_level: "Đại học",
+    duration: 4,
     status: "active",
   });
 
@@ -38,8 +43,19 @@ function MajorCreate() {
       newErrors.major_name = "Tên ngành không được vượt quá 150 ký tự!";
     }
 
-    setErrors(newErrors);
+    if (!formData.faculty_id) {
+      newErrors.faculty_id = "Vui lòng chọn khoa!";
+    }
 
+    if (!formData.degree_level) {
+      newErrors.degree_level = "Vui lòng chọn trình độ đào tạo!";
+    }
+
+    if (!formData.duration || Number(formData.duration) <= 0) {
+      newErrors.duration = "Thời gian đào tạo phải lớn hơn 0!";
+    }
+
+    setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
@@ -48,7 +64,12 @@ function MajorCreate() {
 
     setFormData((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? (checked ? "active" : "inactive") : value,
+      [name]:
+        type === "checkbox"
+          ? checked
+            ? "active"
+            : "inactive"
+          : value,
     }));
 
     setErrors((prev) => ({
@@ -87,6 +108,8 @@ function MajorCreate() {
             major_code: formData.major_code.trim(),
             major_name: formData.major_name.trim(),
             description: formData.description.trim(),
+            faculty_id: Number(formData.faculty_id),
+            duration: Number(formData.duration),
           }),
         });
 
@@ -113,6 +136,9 @@ function MajorCreate() {
             major_code: "",
             major_name: "",
             description: "",
+            faculty_id: "",
+            degree_level: "Đại học",
+            duration: 4,
             status: "active",
           });
 
@@ -139,6 +165,37 @@ function MajorCreate() {
     },
     [formData, apiUrl, isSubmitting],
   );
+
+  useEffect(() => {
+    fetch(`${apiUrl}/university/faculty`, {
+      method: "GET",
+      credentials: "include",
+    })
+      .then(async (res) => {
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(
+            data.detail?.message || "Không thể lấy dữ liệu khoa.",
+          );
+        }
+
+        return data;
+      })
+      .then((data) => {
+        if (data.success) {
+          setFaculties(data.faculties);
+        }
+      })
+      .catch((ex) => {
+        SwalAlert({
+          status: "error",
+          title: "Có lỗi xảy ra",
+          message: ex.message,
+          time: 3000,
+        });
+      });
+  }, [apiUrl]);
 
   return (
     <div className="major-create">
@@ -188,7 +245,7 @@ function MajorCreate() {
                   id="major_code"
                   name="major_code"
                   type="text"
-                  placeholder="Ví dụ: CNTT"
+                  placeholder="Ví dụ: 7480201"
                   maxLength={20}
                   value={formData.major_code}
                   onChange={handleChange}
@@ -211,7 +268,7 @@ function MajorCreate() {
                   id="major_name"
                   name="major_name"
                   type="text"
-                  placeholder="Ví dụ: ngành Công nghệ thông tin"
+                  placeholder="Ví dụ: Công nghệ thông tin"
                   maxLength={150}
                   value={formData.major_name}
                   onChange={handleChange}
@@ -224,6 +281,81 @@ function MajorCreate() {
                   <small>Tên ngành không được vượt quá 150 ký tự.</small>
                 )}
               </div>
+            </div>
+
+            <div className="major-create-row">
+              <div className="major-create-field">
+                <label htmlFor="faculty_id">
+                  Khoa trực thuộc <span>*</span>
+                </label>
+
+                <select
+                  id="faculty_id"
+                  name="faculty_id"
+                  value={formData.faculty_id}
+                  onChange={handleChange}
+                  className={errors.faculty_id ? "is-invalid" : ""}
+                >
+                  <option value="">-- Chọn khoa --</option>
+                  {faculties.map((faculty) => (
+                    <option key={faculty.id} value={faculty.id}>
+                      {faculty.faculty_name}
+                    </option>
+                  ))}
+                </select>
+
+                {errors.faculty_id && (
+                  <small className="text-danger">{errors.faculty_id}</small>
+                )}
+              </div>
+
+              <div className="major-create-field">
+                <label htmlFor="degree_level">
+                  Trình độ đào tạo <span>*</span>
+                </label>
+
+                <select
+                  id="degree_level"
+                  name="degree_level"
+                  value={formData.degree_level}
+                  onChange={handleChange}
+                  className={errors.degree_level ? "is-invalid" : ""}
+                >
+                  <option value="Đại học">Đại học</option>
+                  <option value="Cao đẳng">Cao đẳng</option>
+                  <option value="Thạc sĩ">Thạc sĩ</option>
+                  <option value="Tiến sĩ">Tiến sĩ</option>
+                </select>
+
+                {errors.degree_level && (
+                  <small className="text-danger">
+                    {errors.degree_level}
+                  </small>
+                )}
+              </div>
+            </div>
+
+            <div className="major-create-field">
+              <label htmlFor="duration">
+                Thời gian đào tạo (năm) <span>*</span>
+              </label>
+
+              <input
+                id="duration"
+                name="duration"
+                type="number"
+                min="1"
+                step="1"
+                value={formData.duration}
+                onChange={handleChange}
+                className={errors.duration ? "is-invalid" : ""}
+              />
+
+              {errors.duration ? (
+                <small className="text-danger">{errors.duration}</small>
+              ) : (
+                <small>Nhập số năm đào tạo của ngành.</small>
+              )}
             </div>
 
             <div className="major-create-field">

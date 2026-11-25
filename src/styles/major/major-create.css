@@ -172,6 +172,31 @@
   color: #878a99;
   font-size: 12px;
 }
+.major-create-field select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #d0d5dd;
+    border-radius: 6px;
+    outline: none;
+    background-color: #fff;
+    color: #344054;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.major-create-field select:focus {
+    border-color: #405189;
+    box-shadow: 0 0 0 3px rgba(64, 81, 137, 0.1);
+}
+
+.major-create-field select.is-invalid {
+    border-color: #f06548;
+}
+
+.major-create-field select option {
+    padding: 10px;
+}
 
 .major-create-status {
   display: flex;

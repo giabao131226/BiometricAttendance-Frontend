@@ -20,7 +20,7 @@ export default function LayoutProtected(){
 
     return (
         <> 
-            {isLoading ? <Loading /> : <></>}
+            {/* {isLoading ? <Loading /> : <></>} */}
             {isAuthenticated ? <Outlet /> : <></>}
         </>
     )

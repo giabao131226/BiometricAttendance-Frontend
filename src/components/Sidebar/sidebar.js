@@ -39,6 +39,33 @@ export default function Sidebar({ role, isCollapsed, isMobileOpen }) {
         icon: LayoutDashboard,
       },
       {
+        label: "Quản lý khoa",
+        key: "faculties",
+        icon: Building2,
+        children: [
+          {
+            label: "Danh sách khoa",
+            link: "/university/faculties",
+            icon: Building2
+          },
+          {
+            label: "Quản lý bộ môn",
+            link: "/university/departments",
+            icon: Network
+          },
+          {
+            label: "Phân công trưởng khoa",
+            link: "/university/faculties/assign-dean",
+            icon: UserCog
+          },
+          {
+            label: "Thống kê khoa",
+            link: "/university/faculties/statistics",
+            icon: ChartNoAxesCombined
+          }
+        ]
+      },
+      {
         label: "Quản lý ngành",
         key: "majors",
         icon: Building2,
