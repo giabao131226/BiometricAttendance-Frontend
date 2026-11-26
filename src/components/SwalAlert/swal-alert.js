@@ -1,14 +1,14 @@
 import Swal from 'sweetalert2'
 
-export default function SwalAlert({ status, title,message, time }) {
+export default function SwalAlert({ status, title,message, time = 3000 }) {
     Swal.fire({
         toast: true,
         position: "top-end",
-        icon: status === "success" ? "success" : "error",
+        icon: status === true ? "success" : "error",
         title: title,
         text: message,
         showConfirmButton: false,
-        timer: 3000,
+        timer: time,
         timerProgressBar: true
     })
 }

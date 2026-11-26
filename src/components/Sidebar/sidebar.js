@@ -49,6 +49,11 @@ export default function Sidebar({ role, isCollapsed, isMobileOpen }) {
             icon: Building2
           },
           {
+            label: "Danh Sách Ngành",
+            link: "/university/majors",
+            icon: Building2,
+          },
+          {
             label: "Quản lý bộ môn",
             link: "/university/departments",
             icon: Network
@@ -64,34 +69,7 @@ export default function Sidebar({ role, isCollapsed, isMobileOpen }) {
             icon: ChartNoAxesCombined
           }
         ]
-      },
-      {
-        label: "Quản lý ngành",
-        key: "majors",
-        icon: Building2,
-        children: [
-          {
-            label: "Danh sách ngành",
-            link: "/university/majors",
-            icon: Building2,
-          },
-          {
-            label: "Quản lý bộ môn",
-            link: "/university/departments",
-            icon: Network,
-          },
-          {
-            label: "Phân công trưởng ngành",
-            link: "/university/majors/assign-dean",
-            icon: UserCog,
-          },
-          {
-            label: "Thống kê ngành",
-            link: "/university/majors/statistics",
-            icon: ChartNoAxesCombined,
-          },
-        ],
-      },
+      }
     ],
   };
   role = "university";

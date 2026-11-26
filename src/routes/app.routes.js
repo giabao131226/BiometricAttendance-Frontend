@@ -2,6 +2,9 @@
 import LayoutDefault from "../layouts/default/layout-default";
 import LayoutProtected from "../layouts/protected/layout-protected";
 import StudentHome from "../pages/students/home/home";
+import DepartmentCreate from "../pages/university/departments/department-create";
+import DepartmentEdit from "../pages/university/departments/department-edit";
+import DepartmentManagement from "../pages/university/departments/department-manage";
 import FacultyCreate from "../pages/university/falcuties/faculties-create";
 import FacultyEdit from "../pages/university/falcuties/faculties-edit";
 import FacultyManagement from "../pages/university/falcuties/falcuties-manage";
@@ -58,6 +61,23 @@ export const routes = [
                   {
                     path: "edit/:id",
                     element: <FacultyEdit />
+                  }
+                ]
+              },
+              {
+                path: "departments",
+                children: [
+                  {
+                    index: true,
+                    element: <DepartmentManagement />
+                  },
+                  {
+                    path: "create",
+                    element: <DepartmentCreate />
+                  },
+                  {
+                    path: "edit/:id",
+                    element: <DepartmentEdit />
                   }
                 ]
               }
