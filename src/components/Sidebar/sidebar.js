@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import {
@@ -5,8 +6,10 @@ import {
   ChevronRight,
   LayoutDashboard,
   Building2,
-  Plus,
+  ClipboardList,
+  GraduationCap,
   Network,
+  BookOpen,
   UserCog,
   ChartNoAxesCombined,
 } from "lucide-react";
@@ -14,7 +17,7 @@ import "./sidebar.css";
 
 export default function Sidebar({ role, isCollapsed, isMobileOpen }) {
   const [openMenus, setOpenMenus] = useState({
-    majors: true,
+    faculties: true,
   });
 
   const roleConfig = {
@@ -46,37 +49,38 @@ export default function Sidebar({ role, isCollapsed, isMobileOpen }) {
           {
             label: "Danh sách khoa",
             link: "/university/faculties",
-            icon: Building2
+            icon: ClipboardList,
           },
           {
-            label: "Danh Sách Ngành",
+            label: "Danh sách ngành",
             link: "/university/majors",
-            icon: Building2,
+            icon: GraduationCap,
           },
           {
             label: "Quản lý bộ môn",
             link: "/university/departments",
-            icon: Network
+            icon: Network,
           },
           {
-            label: "Quản Lý Môn",
+            label: "Quản lý môn",
             link: "/university/subjects",
-            icon: Building2
+            icon: BookOpen,
           },
           {
             label: "Phân công trưởng khoa",
             link: "/university/faculties/assign-dean",
-            icon: UserCog
+            icon: UserCog,
           },
           {
             label: "Thống kê khoa",
             link: "/university/faculties/statistics",
-            icon: ChartNoAxesCombined
-          }
-        ]
-      }
+            icon: ChartNoAxesCombined,
+          },
+        ],
+      },
     ],
   };
+
   role = "university";
   const menuItems = roleConfig[role] || [];
 
