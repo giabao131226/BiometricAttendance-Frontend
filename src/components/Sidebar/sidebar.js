@@ -59,6 +59,11 @@ export default function Sidebar({ role, isCollapsed, isMobileOpen }) {
             icon: Network
           },
           {
+            label: "Quản Lý Môn",
+            link: "/university/subjects",
+            icon: Building2
+          },
+          {
             label: "Phân công trưởng khoa",
             link: "/university/faculties/assign-dean",
             icon: UserCog

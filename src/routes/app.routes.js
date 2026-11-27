@@ -12,6 +12,9 @@ import UniversityHome from "../pages/university/home/home";
 import MajorCreate from "../pages/university/majors/majors-create";
 import MajorEdit from "../pages/university/majors/majors-edit";
 import MajorManagement from "../pages/university/majors/majors-manage";
+import SubjectCreate from "../pages/university/subjects/subject-create";
+import SubjectEdit from "../pages/university/subjects/subject-edit";
+import SubjectManagement from "../pages/university/subjects/subject-manage";
 
 export const routes = [
   {
@@ -78,6 +81,23 @@ export const routes = [
                   {
                     path: "edit/:id",
                     element: <DepartmentEdit />
+                  }
+                ]
+              },
+              {
+                path: "subjects",
+                children: [
+                  {
+                    index: true,
+                    element: <SubjectManagement />
+                  },
+                  {
+                    path: "create",
+                    element: <SubjectCreate />
+                  },
+                  {
+                    path: "edit/:id",
+                    element: <SubjectEdit />
                   }
                 ]
               }
