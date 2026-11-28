@@ -5,6 +5,8 @@ import UniversityHome from "../pages/university/home/home";
 import MajorManagement from "../pages/university/majors/majors-manage";
 import MajorCreate from "../pages/university/majors/majors-create";
 import MajorEdit from "../pages/university/majors/majors-edit";
+import SearchIn4mation from "../pages/students/information/search_in4mation";
+import Profile from "../pages/profile";
 
 export const routes = [
   {
@@ -17,8 +19,22 @@ export const routes = [
         children: [
           {
             path: "student",
-            element: <StudentHome />,
+            children: [
+              { index: true, element: <StudentHome /> },
+              { path: "profile", element: <Profile /> },
+            ],
           },
+
+          {
+            path: "lecturer",
+            children: [{ path: "profile", element: <Profile /> }],
+          },
+
+          {
+            path: "student-search",
+            element: <SearchIn4mation />,
+          },
+
           {
             path: "university",
             children: [
